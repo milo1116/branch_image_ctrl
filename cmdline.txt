@@ -1,0 +1,1 @@
+sudo ./userland/userland/build/bin/raspistill -g -t 0 -ss 45000 -ev -2 -awb off -awbg 1.54,1.20 %s
