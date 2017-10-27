@@ -384,13 +384,13 @@ void* GPOI_Thread( void* s )
 					memset(gbBtnPressed, false, sizeof(gbBtnPressed));
 							
 				if (gValues[9])
-					gbBtnPressed[BTN_IO18] = true;
+					gbBtnPressed[BTN_1] = true;
 				else if (gValues[11])
-					gbBtnPressed[BTN_IO4] = true;					
+					gbBtnPressed[BTN_4] = true;					
 				else if (gValues[10])
-					gbBtnPressed[BTN_IO27] = true;					
+					gbBtnPressed[BTN_3] = true;					
 				else if (gValues[8])
-					gbBtnPressed[BTN_IO17] = true;	
+					gbBtnPressed[BTN_2] = true;	
 #endif
 																	
 			}

@@ -118,17 +118,17 @@ void CDisplay::DrawScreen( bool finish )
 	int img_height = 5000;
 	
 	// NOTE: the higher Y (2nd arg), the lower image in the screen
-	if (!(gbBtnPressed[BTN_IO18] | gbBtnPressed[BTN_IO4] | gbBtnPressed[BTN_IO27] | gbBtnPressed[BTN_IO17]))
+	if (!(gbBtnPressed[BTN_1] | gbBtnPressed[BTN_2] | gbBtnPressed[BTN_3] | gbBtnPressed[BTN_4]))
 		DrawImage( img_locx, y, w, h,(char*)"./images/startup.jpg");	
 	
-	if (gbBtnPressed[BTN_IO18])
-		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/photo03.jpg");	
-	else if (gbBtnPressed[BTN_IO4])					
-		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/photo01.jpg");
-	else if (gbBtnPressed[BTN_IO27])					
-		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/photo04.jpg");	
-	else if (gbBtnPressed[BTN_IO17])					
-		DrawImage( img_locx, img_locy, img_width, img_height, (char*)"./images/photo02.jpg");			
+	if (gbBtnPressed[BTN_1])
+		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/light.jpg");
+	else if (gbBtnPressed[BTN_2])					
+		DrawImage( img_locx, img_locy, img_width, img_height, (char*)"./images/normal.jpg");
+	else if (gbBtnPressed[BTN_3])					
+		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/dark.jpg");
+	else if (gbBtnPressed[BTN_4])					
+		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/target.jpg");			
 	
 	goto endnow;
 #endif		
