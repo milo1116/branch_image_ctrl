@@ -595,11 +595,12 @@ int main( int argc, char *argv[] )
 	// this loop then starts up raspivid for 5 seconds of recording
 	// then when raspivid exits it restarts rasipstill...
 	while( true ){
-		
+
+#ifndef TESTING				
+	
 		// Translate the knob positions to a command line string
 		ValToCmd();										
 				
-#ifndef TESTING				
 		// Set a countdown to send the knob positions in 500ms				
 		gSendValuesIn = 1000;											
 		

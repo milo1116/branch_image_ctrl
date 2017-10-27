@@ -60,6 +60,8 @@ void CDisplay::DrawScreen( bool finish )
 {
 	int w = mWidth;
 	int h = mHeight;
+	int x = 1040;
+	int y = 200;	
 	char temp[100];
 	CRect dlg, tick, lab, head, foot;
 	static bool bPressed[4];
@@ -108,24 +110,27 @@ void CDisplay::DrawScreen( bool finish )
 //	Fill(255,255,255,255);
 //	FillRect(1040,0,w,h);
 //	Fill(0,0,0,0);
-	
+
 #ifdef TESTING
-	int x = 1040;
-	int y = 200;
+	int img_locx = 500;
+	int img_locy = 100;
+	int img_width = 5000;
+	int img_height = 5000;
+	
+	// NOTE: the higher Y (2nd arg), the lower image in the screen
+	if (!(gbBtnPressed[BTN_IO18] | gbBtnPressed[BTN_IO4] | gbBtnPressed[BTN_IO27] | gbBtnPressed[BTN_IO17]))
+		DrawImage( img_locx, y, w, h,(char*)"./images/startup.jpg");	
 	
 	if (gbBtnPressed[BTN_IO18])
-		DrawImage( 1040,20,540,540,(char*)"./images/out.jpeg");	
+		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/photo03.jpg");	
 	else if (gbBtnPressed[BTN_IO4])					
-		DrawImage( 1040,20,540,540,(char*)"./images/cyclops.jpg");
+		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/photo01.jpg");
 	else if (gbBtnPressed[BTN_IO27])					
-		DrawImage( 1040,20,540,540,(char*)"./images/rebound.jpg");	
+		DrawImage( img_locx, img_locy, img_width, img_height,(char*)"./images/photo04.jpg");	
 	else if (gbBtnPressed[BTN_IO17])					
-		DrawImage( 1040,20,540,540,(char*)"./images/logo.jpg");			
+		DrawImage( img_locx, img_locy, img_width, img_height, (char*)"./images/photo02.jpg");			
 	
 	goto endnow;
-#else
-	int x = 1040;
-	int y = 200;	
 #endif		
 			
 	DrawImage( 1258,20,433,145,(char*)"./images/logo.jpg");	
@@ -466,7 +471,9 @@ void CDisplay::GradientRoundRect( int x1, int y1, int x2, int y2, int r1, int g1
 
 void CDisplay::DrawImage( int x, int y, int w, int h, char* file )
 {
-	Image( x, mHeight-y-h, w, h, file );
+	//Image( x, mHeight-y-h, w, h, file );
+	Image( x, y, w, h, file );
+
 }
 
 ////////////////////////////////////////////////////////////////////////
