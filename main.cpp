@@ -41,7 +41,9 @@ int					gSendValuesIn = 0;
 
 char				gCmdLine[1024];
 int					gValues[13];
+#ifdef TESTING
 bool 				gbBtnPressed[BTN_COUNT] = {false};
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -78,8 +80,10 @@ void* DsiplayThread( void* arg )
 			}else{
 				mTimeout--;
 				if( mTimeout == 0 ){
-					//display.mBlank = true;
-					//display.DrawScreen();										// rederaw it
+#ifndef TESTING					
+					display.mBlank = true;
+					display.DrawScreen(); // redraw
+#endif					
 				}
 			}
 		}
@@ -344,9 +348,11 @@ void* GPOI_Thread( void* s )
 		else 
 			gValues[11] = 1;
 							
+#ifndef TESTING							
 		// using gValues[11] for display image
-		//if( gKBShutdown ) 
-		//	gValues[11] = 1; 
+		if( gKBShutdown ) 
+			gValues[11] = 1; 
+#endif
 		
 		if( gTakeStill ) 
 			gValues[8] = 1; 
@@ -368,9 +374,12 @@ void* GPOI_Thread( void* s )
 				
 				val[i] = gValues[i+8];				
 				gSendValues = true;
+#ifdef TESTING				
 				gRefresh = true;
+#endif				
 				printf("Sending gValues[%d]=%d\r\n", i+8, gValues[i+8]);
 							
+#ifdef TESTING							
 				if (gValues[8] | gValues[9] | gValues[10] | gValues[11])
 					memset(gbBtnPressed, false, sizeof(gbBtnPressed));
 							
@@ -381,7 +390,9 @@ void* GPOI_Thread( void* s )
 				else if (gValues[10])
 					gbBtnPressed[BTN_IO27] = true;					
 				else if (gValues[8])
-					gbBtnPressed[BTN_IO17] = true;													
+					gbBtnPressed[BTN_IO17] = true;	
+#endif
+																	
 			}
 		}
 
@@ -419,13 +430,14 @@ void* GPOI_Thread( void* s )
 			SendValues();
 			gSendValues = false;
 		}
-		
-		// gValues[11] used for displaying image
-		//if( gValues[11] ){
-		//	printf( "GPIO Terminate\n" );
-		//	gpioTerminate();
-		//	return NULL;
-		//}
+
+#ifndef TESTING
+		if( gValues[11] ){
+			printf( "GPIO Terminate\n" );
+			gpioTerminate();
+			return NULL;
+		}
+#endif		
 		
 		usleep(10000);
 	}
@@ -584,22 +596,41 @@ int main( int argc, char *argv[] )
 	// then when raspivid exits it restarts rasipstill...
 	while( true ){
 		
-		ValToCmd();														// Translate the knob positions to a command line string
-		gSendValuesIn = 1000;											// Set a countdown to send the knob positions in 500ms
+		// Translate the knob positions to a command line string
+		ValToCmd();										
+				
+#ifndef TESTING				
+		// Set a countdown to send the knob positions in 500ms				
+		gSendValuesIn = 1000;											
+		
+		// Don't start up raspistill for this debug code
 		sprintf( cmdline, startline, gCmdLine );
-		//system( cmdline );												// Start up raspistill...this thread will hang till that task quits
+		// Start up raspistill...this thread will hang till that task quits
+		system( cmdline );												
+#endif
 		
 		// If the GPIO "Quit" button (11) was pressed then
 		// break out of our loop...
-		if( /*gValues[11] 
-			||*/ gKBShutdown) 
+		if( 
+#ifndef TESTING		
+			gValues[11]
+#else			 
+			gKBShutdown
+#endif
+			) 
 			{
 				printf("breaking from main loop\r\n");
 			break;
 		}
-//		ValToCmd();														// Translate the knob positions to a command line string
-//		sprintf( cmdline, "sudo ./userland/userland/build/bin/raspivid -o test_video.mov -p 10,10,1030,1030 -w 300 -h 300 %s", gCmdLine );
-//		system( cmdline );												// Start up raspivis...this thread will hang till that task quits
+		
+#ifndef TESTING		
+		// Translate the knob positions to a command line string
+		ValToCmd();														
+		sprintf( cmdline, "sudo ./userland/userland/build/bin/raspivid -o test_video.mov -p 10,10,1030,1030 -w 300 -h 300 %s", gCmdLine );
+		
+		// Start up raspivis...this thread will hang till that task quits		
+		system( cmdline );												
+#endif
 		
 		usleep(10000);
 	}

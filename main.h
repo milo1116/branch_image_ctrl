@@ -1,6 +1,8 @@
 #ifndef _MAIN_
 #define _MAIN_
 
+#define		TESTING		1
+
 #define 	CY_PORT 				5432
 #define 	CONTROLS_TIMEOUT		5000
 #define 	KNOB_COUNT 				8

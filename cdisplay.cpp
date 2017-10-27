@@ -109,6 +109,10 @@ void CDisplay::DrawScreen( bool finish )
 //	FillRect(1040,0,w,h);
 //	Fill(0,0,0,0);
 	
+#ifdef TESTING
+	int x = 1040;
+	int y = 200;
+	
 	if (gbBtnPressed[BTN_IO18])
 		DrawImage( 1040,20,540,540,(char*)"./images/out.jpeg");	
 	else if (gbBtnPressed[BTN_IO4])					
@@ -117,33 +121,30 @@ void CDisplay::DrawScreen( bool finish )
 		DrawImage( 1040,20,540,540,(char*)"./images/rebound.jpg");	
 	else if (gbBtnPressed[BTN_IO17])					
 		DrawImage( 1040,20,540,540,(char*)"./images/logo.jpg");			
-	else
-	{
-		int x = 1040;
-		int y = 200;
-		
-		goto endnow;
+	
+	goto endnow;
+#else
+	int x = 1040;
+	int y = 200;	
+#endif		
 			
-		DrawImage( 1258,20,433,145,(char*)"./images/logo.jpg");	
+	DrawImage( 1258,20,433,145,(char*)"./images/logo.jpg");	
 
-
-		
-		DrawCtrl((char*)"brightness",x,y,gValues[4]); y+= 200;
-		DrawCtrl((char*)"contrast",x,y,gValues[5]); y+= 200;
-		DrawCtrl((char*)"saturation",x,y,gValues[6]); y+= 200;
-		DrawCtrl((char*)"sharpness",x,y,gValues[7]); y+= 200;
-		
-		x = 1475;
-		y = 200;
-		
-		DrawCtrl((char*)"moveh",x,y,gValues[0]); y+= 200;
-		DrawCtrl((char*)"movev",x,y,gValues[1]); y+= 200;
-		DrawCtrl((char*)"rotate",x,y,gValues[2]); y+= 200;
-		DrawCtrl((char*)"zoom",x,y,gValues[3]); y+= 200;
+	DrawCtrl((char*)"brightness",x,y,gValues[4]); y+= 200;
+	DrawCtrl((char*)"contrast",x,y,gValues[5]); y+= 200;
+	DrawCtrl((char*)"saturation",x,y,gValues[6]); y+= 200;
+	DrawCtrl((char*)"sharpness",x,y,gValues[7]); y+= 200;
 	
-endnow:
+	x = 1475;
+	y = 200;
 	
-	if( finish ) End();
+	DrawCtrl((char*)"moveh",x,y,gValues[0]); y+= 200;
+	DrawCtrl((char*)"movev",x,y,gValues[1]); y+= 200;
+	DrawCtrl((char*)"rotate",x,y,gValues[2]); y+= 200;
+	DrawCtrl((char*)"zoom",x,y,gValues[3]); y+= 200;
+	
+	if( finish ) 
+		End();
 
 	return;
 	
@@ -204,8 +205,14 @@ endnow:
 		GradientRoundRect( &tick, _COLOR_2_, _COLOR_4_ );
 		TextOutWrap(&lab,knob_labels[i+4],18);
 	}
-}
-	if( finish ) End();
+
+
+#ifdef TESTING
+endnow:
+#endif
+
+	if( finish ) 
+		End();
 
 }
 
