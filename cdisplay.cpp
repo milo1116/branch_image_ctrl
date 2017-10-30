@@ -471,8 +471,11 @@ void CDisplay::GradientRoundRect( int x1, int y1, int x2, int y2, int r1, int g1
 
 void CDisplay::DrawImage( int x, int y, int w, int h, char* file )
 {
-	//Image( x, mHeight-y-h, w, h, file );
+#ifdef TEST	
 	Image( x, y, w, h, file );
+#else
+	Image( x, mHeight-y-h, w, h, file );
+#endif	
 
 }
 
